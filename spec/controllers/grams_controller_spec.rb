@@ -21,6 +21,7 @@ describe "grams#new action" do
         password:              'secretPassword',
         password_confirmation: 'secretPassword'
       )
+      user = FactoryBot.create(:user)
       sign_in user
       get :new
       expect(response).to have_http_status(:success)
@@ -40,6 +41,7 @@ describe "grams#create action" do
         password:              'secretPassword',
         password_confirmation: 'secretPassword'
       )
+      user = FactoryBot.create(:user)
       sign_in user
     post :create, params: { gram: { message: 'Hello!' } }
     expect(response).to redirect_to root_path
@@ -54,7 +56,9 @@ describe "grams#create action" do
         password:              'secretPassword',
         password_confirmation: 'secretPassword'
       )
+      user = FactoryBot.create(:user)
       sign_in user
+  gram_count = Gram.count
   post :create, params: { gram: { message: '' } }
   expect(response).to have_http_status(:unprocessable_entity)
   expect(gram_count).to eq Gram.count
